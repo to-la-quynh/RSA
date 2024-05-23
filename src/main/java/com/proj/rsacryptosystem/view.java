@@ -27,12 +27,12 @@ import javax.swing.border.TitledBorder;
  *
  * @author caoth
  */
-public class luuFileDoc extends javax.swing.JFrame {
+public class view extends javax.swing.JFrame {
 
     /**
      * Creates new form view
      */
-    public luuFileDoc() {
+    public view() {
         initComponents();
         this.btnNhapFileBanRo.setEnabled(false);
         this.btnMaHoa.setEnabled(false);
@@ -221,7 +221,7 @@ public class luuFileDoc extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        ContentPanel.add(KeyGeneratePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 120, 900, 190));
+        ContentPanel.add(KeyGeneratePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 900, 200));
 
         EncryptPanel.setBackground(new java.awt.Color(255, 204, 204));
         EncryptPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mã hoá", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
@@ -482,7 +482,7 @@ public class luuFileDoc extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGiaiMaActionPerformed
 
     private void btnNhapFileBanRoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhapFileBanRoActionPerformed
-               // TODO add your handling code here:
+        // TODO add your handling code here:
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File("D:/"));
         int result = fileChooser.showDialog(this, "Tải file bản rõ");
@@ -507,7 +507,7 @@ public class luuFileDoc extends javax.swing.JFrame {
 
     private void btnLuuFileBanMaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuFileBanMaActionPerformed
         // TODO add your handling code here:
-        luuFile(this.txtXuatBanMa.getText());
+         luuFile(this.txtXuatBanMa.getText());
     }//GEN-LAST:event_btnLuuFileBanMaActionPerformed
 
     private void btnLuuBanRoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuBanRoActionPerformed
@@ -522,7 +522,7 @@ public class luuFileDoc extends javax.swing.JFrame {
             content = docFileTxt(file);
         } 
 //        else if (filePath.endsWith(".doc")) {
-//            content = readDocFile(file);
+//            content = docFileDoc(file);
 //        }
         return content;
     }
@@ -558,7 +558,7 @@ public class luuFileDoc extends javax.swing.JFrame {
         }
     }
 
-//    private void saveAsDoc(File file, String content) {
+//    private void luuFileDoc(File file, String content) {
 //        try (FileOutputStream fos = new FileOutputStream(file);
 //             BufferedOutputStream bos = new BufferedOutputStream(fos)) {
 //            bos.write(content.getBytes());
@@ -580,7 +580,7 @@ public class luuFileDoc extends javax.swing.JFrame {
     }
 
     
-//    private static String readDocFile(File file) {
+//    private static String docFileDoc(File file) {
 //        StringBuilder content = new StringBuilder();
 //        try (FileInputStream fis = new FileInputStream(file);
 //             HWPFDocument document = new HWPFDocument(fis);
@@ -612,21 +612,23 @@ public class luuFileDoc extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(luuFileDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(view.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(luuFileDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(view.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(luuFileDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(view.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(luuFileDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(view.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new luuFileDoc().setVisible(true);
+                new view().setVisible(true);
             }
         });
     }
