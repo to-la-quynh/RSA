@@ -16,7 +16,7 @@ public class RSACryptosystem {
         EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					view frame = new view();
+					luuFileDoc frame = new luuFileDoc();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

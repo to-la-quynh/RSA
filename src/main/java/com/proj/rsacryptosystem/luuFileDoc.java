@@ -5,11 +5,20 @@
 package com.proj.rsacryptosystem;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -18,12 +27,12 @@ import javax.swing.border.TitledBorder;
  *
  * @author caoth
  */
-public class view extends javax.swing.JFrame {
+public class luuFileDoc extends javax.swing.JFrame {
 
     /**
      * Creates new form view
      */
-    public view() {
+    public luuFileDoc() {
         initComponents();
         this.btnNhapFileBanRo.setEnabled(false);
         this.btnMaHoa.setEnabled(false);
@@ -236,6 +245,11 @@ public class view extends javax.swing.JFrame {
 
         btnNhapFileBanRo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnNhapFileBanRo.setText("File");
+        btnNhapFileBanRo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNhapFileBanRoActionPerformed(evt);
+            }
+        });
         EncryptPanel.add(btnNhapFileBanRo, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, -1, -1));
 
         btnMaHoa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -273,6 +287,11 @@ public class view extends javax.swing.JFrame {
 
         btnLuuFileBanMa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnLuuFileBanMa.setText("Lưu");
+        btnLuuFileBanMa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLuuFileBanMaActionPerformed(evt);
+            }
+        });
         EncryptPanel.add(btnLuuFileBanMa, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 420, -1, -1));
 
         ContentPanel.add(EncryptPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 320, 420, 460));
@@ -297,6 +316,11 @@ public class view extends javax.swing.JFrame {
 
         btnNhapFileBanMa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnNhapFileBanMa.setText("File");
+        btnNhapFileBanMa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNhapFileBanMaActionPerformed(evt);
+            }
+        });
         DecryptPanel.add(btnNhapFileBanMa, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, -1, -1));
 
         btnGiaiMa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -325,6 +349,11 @@ public class view extends javax.swing.JFrame {
 
         btnLuuBanRo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnLuuBanRo.setText("Lưu");
+        btnLuuBanRo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLuuBanRoActionPerformed(evt);
+            }
+        });
         DecryptPanel.add(btnLuuBanRo, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 420, -1, -1));
 
         ContentPanel.add(DecryptPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 320, 420, 460));
@@ -452,6 +481,119 @@ public class view extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGiaiMaActionPerformed
 
+    private void btnNhapFileBanRoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhapFileBanRoActionPerformed
+               // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("D:/"));
+        int result = fileChooser.showDialog(this, "Tải file bản rõ");
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String content = docFile(selectedFile);
+            this.txtNhapBanRo.setText(content);
+        }
+    }//GEN-LAST:event_btnNhapFileBanRoActionPerformed
+
+    private void btnNhapFileBanMaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhapFileBanMaActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("D:/"));
+        int result = fileChooser.showDialog(this, "Tải file bản mã");
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String content = docFile(selectedFile);
+            this.txtNhapBanMa.setText(content);
+        }
+    }//GEN-LAST:event_btnNhapFileBanMaActionPerformed
+
+    private void btnLuuFileBanMaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuFileBanMaActionPerformed
+        // TODO add your handling code here:
+        luuFile(this.txtXuatBanMa.getText());
+    }//GEN-LAST:event_btnLuuFileBanMaActionPerformed
+
+    private void btnLuuBanRoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuBanRoActionPerformed
+        // TODO add your handling code here:
+        luuFile(this.txtXuatBanRo.getText());
+    }//GEN-LAST:event_btnLuuBanRoActionPerformed
+
+    private static String docFile(File file) {
+        String filePath = file.getAbsolutePath();
+        String content = "";
+        if (filePath.endsWith(".txt")) {
+            content = docFileTxt(file);
+        } 
+//        else if (filePath.endsWith(".doc")) {
+//            content = readDocFile(file);
+//        }
+        return content;
+    }
+    
+    private static String docFileTxt(File file) {
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return content.toString().trim();
+    }
+    
+        private void luuFile(String content) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("D:/"));
+        int result = fileChooser.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            String fileName = file.getName();
+            if (fileName.endsWith(".doc")) {
+//                saveAsDoc(file, content);
+            } else if (fileName.endsWith(".txt")) {
+                luuFileTxt(file, content);
+            } else {
+                // Handle unsupported file types
+                JOptionPane.showMessageDialog(this, "Phầm mềm không hỗ trợ loại file này, vui lòng chọn file .doc or .txt file.");
+            }
+        }
+    }
+
+//    private void saveAsDoc(File file, String content) {
+//        try (FileOutputStream fos = new FileOutputStream(file);
+//             BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+//            bos.write(content.getBytes());
+//            JOptionPane.showMessageDialog(this, "File saved successfully.");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            JOptionPane.showMessageDialog(this, "Error saving file.");
+//        }
+//    }
+
+    private void luuFileTxt(File file, String content) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write(content);
+            JOptionPane.showMessageDialog(this, "Lưu file thành công.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lưu file thất bại.");
+        }
+    }
+
+    
+//    private static String readDocFile(File file) {
+//        StringBuilder content = new StringBuilder();
+//        try (FileInputStream fis = new FileInputStream(file);
+//             HWPFDocument document = new HWPFDocument(fis);
+//             WordExtractor extractor = new WordExtractor(document)) {
+//            String[] paragraphs = extractor.getParagraphText();
+//            for (String paragraph : paragraphs) {
+//                content.append(paragraph).append("\n");
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return content.toString().trim();
+//    }
     
     /**
      * @param args the command line arguments
@@ -470,20 +612,21 @@ public class view extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(view.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(luuFileDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(view.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(luuFileDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(view.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(luuFileDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(view.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(luuFileDoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new view().setVisible(true);
+                new luuFileDoc().setVisible(true);
             }
         });
     }
