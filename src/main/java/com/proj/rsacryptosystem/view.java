@@ -109,7 +109,7 @@ public class view extends javax.swing.JFrame {
         jLabel5.setText("Kích thước khoá");
 
         cmbKichThuoc.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        cmbKichThuoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "8", "16", "64", "128", "256", "512", "1024", "2048", "3072" }));
+        cmbKichThuoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "256", "512", "1024", "2048", "3072" }));
 
         btnSinhKhoa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSinhKhoa.setText("Sinh khoá tự động");
@@ -414,17 +414,19 @@ public class view extends javax.swing.JFrame {
         this.btnNhapFileBanMa.setEnabled(true);
         this.btnGiaiMa.setEnabled(true);
     }//GEN-LAST:event_btnTaoKhoaActionPerformed
-
+    public static BigInteger cipher;
     private void btnMaHoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaHoaActionPerformed
         // TODO add your handling code here:
-        String plaintText = "";
-        plaintText = new String(this.txtNhapBanRo.getText().getBytes(), StandardCharsets.UTF_8);
-        System.out.println(plaintText);
+        String plaintText = this.txtNhapBanRo.getText();
+        System.out.println("Bản rõ: " + plaintText);
         if(plaintText.equals("")){
             JOptionPane.showMessageDialog(ContentPanel, "Mã hoá không thành công, bản rõ không được để trống!");
         }else{
+//            BigInteger cipherText = rsa.encrypt(new BigInteger(plaintText.getBytes()));
             String cipherText = rsa.encrypt(plaintText);
-            
+//            cipher = rsa.encrypt(new BigInteger(1, plaintText.getBytes(StandardCharsets.UTF_8)));
+//            String cipherText = cipher.toString(16);
+            System.out.println("Bản mã sau khi mã hoá: " + cipherText);
             this.txtXuatBanMa.setText(cipherText);
             JOptionPane.showMessageDialog(ContentPanel, "Mã hoá thành công!");
             this.btnChuyen.setEnabled(true);
@@ -435,13 +437,16 @@ public class view extends javax.swing.JFrame {
     private void btnGiaiMaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGiaiMaActionPerformed
         // TODO add your handling code here:
         String cipherText = this.txtNhapBanMa.getText();
-       
+        System.out.println("Bản mã: " + cipherText);
         if(cipherText.equals("")){
             JOptionPane.showMessageDialog(ContentPanel, "Giải mã không thành công, bản mã không được để trống!");
         }else{
-            String plainText = rsa.decrypt(cipherText);
-            System.out.println(plainText);
-            this.txtXuatBanRo.setText(plainText);
+//            BigInteger plainText = rsa.decrypt(new BigInteger(cipherText));
+            String plaintText = rsa.decrypt(cipherText);
+//              BigInteger plaint = rsa.decrypt(cipher);
+//              String plaintText = new String(plaint.toByteArray(), StandardCharsets.UTF_8);
+            System.out.println("Bản rõ sau khi giải mã: " + plaintText);
+            this.txtXuatBanRo.setText(plaintText);
             JOptionPane.showMessageDialog(ContentPanel, "Giải mã thành công!");
             this.btnLuuBanRo.setEnabled(true);
         }
