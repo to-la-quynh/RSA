@@ -6,10 +6,14 @@ package com.proj.rsacryptosystem;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.font.NumericShaper.Range;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -20,8 +24,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.extractor.WordExtractor;
+import org.apache.poi.hwpf.usermodel.CharacterRun;
+import org.apache.poi.hwpf.usermodel.Paragraph;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 
 /**
  *
@@ -162,33 +182,34 @@ public class view extends javax.swing.JFrame {
             KeyGeneratePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KeyGeneratePanelLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(KeyGeneratePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnTaoKhoa)
+                .addGroup(KeyGeneratePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(KeyGeneratePanelLayout.createSequentialGroup()
-                        .addGroup(KeyGeneratePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(KeyGeneratePanelLayout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtp))
-                            .addGroup(KeyGeneratePanelLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(cmbKichThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnSinhKhoa))
-                            .addGroup(KeyGeneratePanelLayout.createSequentialGroup()
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtq)))
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtp))
+                    .addGroup(KeyGeneratePanelLayout.createSequentialGroup()
+                        .addComponent(jLabel5)
                         .addGap(18, 18, 18)
-                        .addGroup(KeyGeneratePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cmbKichThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSinhKhoa))
+                    .addGroup(KeyGeneratePanelLayout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtq)))
+                .addGap(18, 18, 18)
+                .addGroup(KeyGeneratePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(KeyGeneratePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txta, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
                     .addComponent(txtb))
                 .addContainerGap())
+            .addGroup(KeyGeneratePanelLayout.createSequentialGroup()
+                .addGap(395, 395, 395)
+                .addComponent(btnTaoKhoa)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         KeyGeneratePanelLayout.setVerticalGroup(
             KeyGeneratePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,7 +280,7 @@ public class view extends javax.swing.JFrame {
                 btnMaHoaActionPerformed(evt);
             }
         });
-        EncryptPanel.add(btnMaHoa, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, -1, -1));
+        EncryptPanel.add(btnMaHoa, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 190, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Bản mã");
@@ -283,7 +304,7 @@ public class view extends javax.swing.JFrame {
                 btnChuyenActionPerformed(evt);
             }
         });
-        EncryptPanel.add(btnChuyen, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 420, -1, -1));
+        EncryptPanel.add(btnChuyen, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 420, -1, -1));
 
         btnLuuFileBanMa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnLuuFileBanMa.setText("Lưu");
@@ -292,7 +313,7 @@ public class view extends javax.swing.JFrame {
                 btnLuuFileBanMaActionPerformed(evt);
             }
         });
-        EncryptPanel.add(btnLuuFileBanMa, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 420, -1, -1));
+        EncryptPanel.add(btnLuuFileBanMa, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 420, -1, -1));
 
         ContentPanel.add(EncryptPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 320, 420, 460));
 
@@ -330,7 +351,7 @@ public class view extends javax.swing.JFrame {
                 btnGiaiMaActionPerformed(evt);
             }
         });
-        DecryptPanel.add(btnGiaiMa, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, -1, -1));
+        DecryptPanel.add(btnGiaiMa, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 190, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Bản rõ");
@@ -354,7 +375,7 @@ public class view extends javax.swing.JFrame {
                 btnLuuBanRoActionPerformed(evt);
             }
         });
-        DecryptPanel.add(btnLuuBanRo, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 420, -1, -1));
+        DecryptPanel.add(btnLuuBanRo, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 420, -1, -1));
 
         ContentPanel.add(DecryptPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 320, 420, 460));
 
@@ -451,10 +472,7 @@ public class view extends javax.swing.JFrame {
         if(plaintText.equals("")){
             JOptionPane.showMessageDialog(ContentPanel, "Mã hoá không thành công, bản rõ không được để trống!");
         }else{
-//            BigInteger cipherText = rsa.encrypt(new BigInteger(plaintText.getBytes()));
             String cipherText = rsa.encrypt(plaintText);
-//            cipher = rsa.encrypt(new BigInteger(1, plaintText.getBytes(StandardCharsets.UTF_8)));
-//            String cipherText = cipher.toString(16);
             System.out.println("Bản mã sau khi mã hoá: " + cipherText);
             this.txtXuatBanMa.setText(cipherText);
             JOptionPane.showMessageDialog(ContentPanel, "Mã hoá thành công!");
@@ -470,10 +488,7 @@ public class view extends javax.swing.JFrame {
         if(cipherText.equals("")){
             JOptionPane.showMessageDialog(ContentPanel, "Giải mã không thành công, bản mã không được để trống!");
         }else{
-//            BigInteger plainText = rsa.decrypt(new BigInteger(cipherText));
             String plaintText = rsa.decrypt(cipherText);
-//              BigInteger plaint = rsa.decrypt(cipher);
-//              String plaintText = new String(plaint.toByteArray(), StandardCharsets.UTF_8);
             System.out.println("Bản rõ sau khi giải mã: " + plaintText);
             this.txtXuatBanRo.setText(plaintText);
             JOptionPane.showMessageDialog(ContentPanel, "Giải mã thành công!");
@@ -487,9 +502,15 @@ public class view extends javax.swing.JFrame {
         fileChooser.setCurrentDirectory(new File("D:/"));
         int result = fileChooser.showDialog(this, "Tải file bản rõ");
         if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            String content = docFile(selectedFile);
-            this.txtNhapBanRo.setText(content);
+            try {
+                File selectedFile = fileChooser.getSelectedFile();
+                String content = docFile(selectedFile);
+                this.txtNhapBanRo.setText(content);
+            } catch (IOException ex) {
+                Logger.getLogger(view.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InvalidFormatException ex) {
+                Logger.getLogger(view.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnNhapFileBanRoActionPerformed
 
@@ -499,31 +520,50 @@ public class view extends javax.swing.JFrame {
         fileChooser.setCurrentDirectory(new File("D:/"));
         int result = fileChooser.showDialog(this, "Tải file bản mã");
         if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            String content = docFile(selectedFile);
-            this.txtNhapBanMa.setText(content);
+            try {
+                File selectedFile = fileChooser.getSelectedFile();
+                String content = docFile(selectedFile);
+                this.txtNhapBanMa.setText(content);
+            } catch (IOException ex) {
+                Logger.getLogger(view.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InvalidFormatException ex) {
+                Logger.getLogger(view.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnNhapFileBanMaActionPerformed
 
     private void btnLuuFileBanMaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuFileBanMaActionPerformed
-        // TODO add your handling code here:
-         luuFile(this.txtXuatBanMa.getText());
+        try {
+            // TODO add your handling code here:
+            luuFile(this.txtXuatBanMa.getText());
+        } catch (IOException ex) {
+            Logger.getLogger(view.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidFormatException ex) {
+            Logger.getLogger(view.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnLuuFileBanMaActionPerformed
 
     private void btnLuuBanRoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuBanRoActionPerformed
-        // TODO add your handling code here:
-        luuFile(this.txtXuatBanRo.getText());
+        try {
+            // TODO add your handling code here:
+            luuFile(this.txtXuatBanRo.getText());
+        } catch (IOException ex) {
+            Logger.getLogger(view.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidFormatException ex) {
+            Logger.getLogger(view.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnLuuBanRoActionPerformed
 
-    private static String docFile(File file) {
+    private static String docFile(File file) throws IOException, FileNotFoundException, InvalidFormatException {
         String filePath = file.getAbsolutePath();
         String content = "";
         if (filePath.endsWith(".txt")) {
             content = docFileTxt(file);
-        } 
-//        else if (filePath.endsWith(".doc")) {
-//            content = docFileDoc(file);
-//        }
+        } else if (filePath.endsWith(".doc")) {
+            content = docFileDoc(file);
+        }else if(filePath.endsWith(".docx")){
+            content = docFileDocx(file);
+        }
         return content;
     }
     
@@ -540,7 +580,41 @@ public class view extends javax.swing.JFrame {
         return content.toString().trim();
     }
     
-        private void luuFile(String content) {
+    public static String docFileDoc(File file) {
+        StringBuilder content = new StringBuilder();
+		try {
+			FileInputStream fis = new FileInputStream(file);
+
+			HWPFDocument doc = new HWPFDocument(fis);
+
+			WordExtractor we = new WordExtractor(doc);
+
+			String[] paragraphs = we.getParagraphText();
+			
+//			System.out.println("Total no of paragraph "+paragraphs.length);
+			for (String para : paragraphs) {
+                            content.append(para.toString());
+//				System.out.println(para.toString());
+			}
+			fis.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+                return content.toString();
+	}
+    
+    public static String docFileDocx(File file) throws FileNotFoundException, IOException{
+        try (FileInputStream fis = new FileInputStream(file)) {
+            XWPFDocument document = new XWPFDocument(fis);
+            StringBuilder content = new StringBuilder();
+            for (XWPFParagraph paragraph : document.getParagraphs()) {
+                content.append(paragraph.getText()).append("\n");
+            }
+            return content.toString();
+        }
+    }
+    
+    private void luuFile(String content) throws IOException, InvalidFormatException {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File("D:/"));
         int result = fileChooser.showSaveDialog(this);
@@ -548,8 +622,11 @@ public class view extends javax.swing.JFrame {
             File file = fileChooser.getSelectedFile();
             String fileName = file.getName();
             if (fileName.endsWith(".doc")) {
-//                saveAsDoc(file, content);
-            } else if (fileName.endsWith(".txt")) {
+                luuFileDoc(file, content);
+            }else if(fileName.endsWith(".docx")) {
+                luuFileDocx(content, file);
+            }
+            else if (fileName.endsWith(".txt")) {
                 luuFileTxt(file, content);
             } else {
                 // Handle unsupported file types
@@ -558,42 +635,42 @@ public class view extends javax.swing.JFrame {
         }
     }
 
-//    private void luuFileDoc(File file, String content) {
-//        try (FileOutputStream fos = new FileOutputStream(file);
-//             BufferedOutputStream bos = new BufferedOutputStream(fos)) {
-//            bos.write(content.getBytes());
-//            JOptionPane.showMessageDialog(this, "File saved successfully.");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            JOptionPane.showMessageDialog(this, "Error saving file.");
-//        }
-//    }
+    private void luuFileDoc(File file, String content) {
+        try (FileOutputStream fos = new FileOutputStream(file);
+             BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+            bos.write(content.getBytes());
+            JOptionPane.showMessageDialog(this, "Lưu file thành công!.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lưu file thất bại!");
+        }
+    }
 
     private void luuFileTxt(File file, String content) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(content);
-            JOptionPane.showMessageDialog(this, "Lưu file thành công.");
+            JOptionPane.showMessageDialog(this, "Lưu file thành công!");
         } catch (IOException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Lưu file thất bại.");
+            JOptionPane.showMessageDialog(this, "Lưu file thất bại!");
         }
     }
 
-    
-//    private static String docFileDoc(File file) {
-//        StringBuilder content = new StringBuilder();
-//        try (FileInputStream fis = new FileInputStream(file);
-//             HWPFDocument document = new HWPFDocument(fis);
-//             WordExtractor extractor = new WordExtractor(document)) {
-//            String[] paragraphs = extractor.getParagraphText();
-//            for (String paragraph : paragraphs) {
-//                content.append(paragraph).append("\n");
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return content.toString().trim();
-//    }
+    private void luuFileDocx(String content, File file) {
+        XWPFDocument document = new XWPFDocument();
+        XWPFParagraph paragraph = document.createParagraph();
+        paragraph.createRun().setText(content);
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            document.write(fos);
+            JOptionPane.showMessageDialog(this, "Lưu file thành công!");
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Lưu file thất bại!");
+            Logger.getLogger(view.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Lưu file thất bại!");
+            Logger.getLogger(view.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     /**
      * @param args the command line arguments
