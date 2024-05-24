@@ -600,7 +600,7 @@ public class view extends javax.swing.JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-                return content.toString();
+                return content.toString().trim();
 	}
     
     public static String docFileDocx(File file) throws FileNotFoundException, IOException{
@@ -610,7 +610,7 @@ public class view extends javax.swing.JFrame {
             for (XWPFParagraph paragraph : document.getParagraphs()) {
                 content.append(paragraph.getText()).append("\n");
             }
-            return content.toString();
+            return content.toString().trim();
         }
     }
     

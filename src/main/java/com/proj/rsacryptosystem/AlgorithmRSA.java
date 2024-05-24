@@ -139,6 +139,7 @@ public class AlgorithmRSA {
 public String decrypt(String encryptedMessage) {
     try {
         BigInteger encryptedBigInt = new BigInteger(encryptedMessage, 16);
+//        BigInteger encryptedBigInt = new BigInteger(encryptedMessage);
         BigInteger decryptedBigInt = encryptedBigInt.modPow(a, n);
         byte[] decryptedBytes = decryptedBigInt.toByteArray();
         // Đảm bảo bỏ byte 0 không cần thiết do BigInteger
